@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.ahsailabs.qudsplayer.pages.favourite.FavouriteActivity">
+    <item
+        android:id="@+id/action_play_this_list"
+        android:orderInCategory="100"
+        android:title="Play This List"
+        app:showAsAction="never" />
+</menu>

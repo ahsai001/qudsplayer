@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".pages.home.MainActivity"
+    tools:showIn="@layout/app_bar_main"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_marginTop="20dp"
+            android:id="@+id/status_textview"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <SeekBar
+            android:layout_marginTop="20dp"
+            android:id="@+id/playing_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:layout_marginTop="20dp"
+            android:id="@+id/number_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:maxLength="4"
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
+
+        <TableLayout
+            android:layout_marginTop="20dp"
+            android:id="@+id/keyboard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TableRow android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="4dp">
+                <TextView android:id="@+id/number_1_textview" style="@style/customNumberTextView" android:layout_weight="1" android:layout_column="1" android:text="1"/>
+                <TextView android:id="@+id/number_2_textview" style="@style/customNumberTextView"  android:layout_weight="1" android:layout_column="2" android:text="2"/>
+                <TextView android:id="@+id/number_3_textview" style="@style/customNumberTextView"  android:layout_weight="1" android:layout_column="3" android:text="3"/>
+            </TableRow>
+            <TableRow android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="4dp">
+                <TextView android:id="@+id/number_4_textview" style="@style/customNumberTextView" android:layout_weight="1" android:layout_column="1" android:text="4"/>
+                <TextView android:id="@+id/number_5_textview" style="@style/customNumberTextView"  android:layout_weight="1" android:layout_column="2" android:text="5"/>
+                <TextView android:id="@+id/number_6_textview" style="@style/customNumberTextView"  android:layout_weight="1" android:layout_column="3" android:text="6"/>
+            </TableRow>
+            <TableRow android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="4dp">
+                <TextView android:id="@+id/number_7_textview" style="@style/customNumberTextView"  android:layout_weight="1" android:layout_column="1" android:text="7"/>
+                <TextView android:id="@+id/number_8_textview" style="@style/customNumberTextView"  android:layout_weight="1"  android:layout_column="2" android:text="8"/>
+                <TextView android:id="@+id/number_9_textview" style="@style/customNumberTextView"  android:layout_weight="1" android:layout_column="3" android:text="9"/>
+            </TableRow>
+            <TableRow android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="4dp">
+                <TextView android:id="@+id/number_repeat_textview" style="@style/customNumberTextView"  android:layout_weight="1" android:layout_column="1" android:text="repeat"/>
+                <TextView android:id="@+id/number_0_textview" style="@style/customNumberTextView"  android:layout_weight="1"  android:layout_column="2" android:text="0"/>
+                <TextView android:id="@+id/number_pause_textview" style="@style/customNumberTextView"  android:layout_weight="1" android:layout_column="3" android:text="pause/play"/>
+            </TableRow>
+            <TableRow android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="4dp">
+                <TextView android:id="@+id/number_prev_textview" style="@style/customNumberTextView"  android:layout_weight="1" android:layout_column="1" android:text="prev"/>
+                <TextView android:id="@+id/number_stop_textview" style="@style/customNumberTextView"  android:layout_weight="1"  android:layout_column="2" android:text="stop/play"/>
+                <TextView android:id="@+id/number_next_textview" style="@style/customNumberTextView"  android:layout_weight="1" android:layout_column="3" android:text="next"/>
+            </TableRow>
+            <TableRow android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="4dp">
+                <TextView android:id="@+id/number_backward_textview" style="@style/customNumberTextView"  android:layout_weight="1" android:layout_column="1" android:text="rewind"/>
+                <TextView android:id="@+id/number_add_fav_textview" style="@style/customNumberTextView"  android:layout_weight="1"  android:layout_column="2" android:text="+"/>
+                <TextView android:id="@+id/number_forward_textview" style="@style/customNumberTextView"  android:layout_weight="1" android:layout_column="3" android:text="forward"/>
+            </TableRow>
+        </TableLayout>
+
+        <Button
+            android:layout_marginTop="20dp"
+            android:id="@+id/play_button"
+            android:layout_width="match_parent"
+            android:text="play"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

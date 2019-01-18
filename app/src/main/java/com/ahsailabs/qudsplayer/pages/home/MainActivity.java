@@ -2,6 +2,7 @@ package com.ahsailabs.qudsplayer.pages.home;
 
 import android.Manifest;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -12,8 +13,10 @@ import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -35,12 +38,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ahsailabs.qudsplayer.R;
+import com.ahsailabs.qudsplayer.configs.AppConfig;
 import com.ahsailabs.qudsplayer.events.PlayThisEvent;
 import com.ahsailabs.qudsplayer.events.PlayThisListEvent;
 import com.ahsailabs.qudsplayer.pages.favourite.FavouriteActivity;
 import com.ahsailabs.qudsplayer.pages.favourite.models.FavouriteModel;
 import com.ahsailabs.qudsplayer.views.TextInputAutoCompleteTextView;
+import com.zaitunlabs.zlcore.activities.AppListActivity;
+import com.zaitunlabs.zlcore.activities.BookmarkListActivity;
+import com.zaitunlabs.zlcore.activities.MessageListActivity;
+import com.zaitunlabs.zlcore.activities.StoreActivity;
 import com.zaitunlabs.zlcore.core.BaseActivity;
+import com.zaitunlabs.zlcore.models.InformationModel;
+import com.zaitunlabs.zlcore.modules.about.AboutUs;
 import com.zaitunlabs.zlcore.utils.CommonUtils;
 import com.zaitunlabs.zlcore.utils.EventsUtils;
 import com.zaitunlabs.zlcore.utils.PermissionUtils;
@@ -87,6 +97,9 @@ public class MainActivity extends BaseActivity
     int playListIndex = 0;
     List<FavouriteModel> favPlayList = new ArrayList<>();
 
+
+    private TextView messageItemView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,6 +123,7 @@ public class MainActivity extends BaseActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setItemIconTintList(null);
 
         viewBindingUtils = ViewBindingUtils.initWithParentView(findViewById(android.R.id.content));
 
@@ -169,11 +183,17 @@ public class MainActivity extends BaseActivity
         }, new Runnable() {
             @Override
             public void run() {
-                CommonUtils.showSnackBar(MainActivity.this,"Aplikasi tidak dapat bekerja normal tanpa storage permission");
+                CommonUtils.showSnackBar(MainActivity.this,"Aplikasi tidak dapat bekerja normal tanpa storage permission and phone state permission");
             }
-        }, Manifest.permission.READ_EXTERNAL_STORAGE);
+        }, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE);
 
 
+
+
+        messageItemView = (TextView) navigationView.getMenu().
+                findItem(R.id.nav_message).getActionView();
+
+        reCountMessage();
 
 
         numberEditText.setImeOptions(EditorInfo.IME_ACTION_GO);
@@ -612,6 +632,15 @@ public class MainActivity extends BaseActivity
         }
     }
 
+    private void reCountMessage(){
+        if(messageItemView != null) {
+            messageItemView.setGravity(Gravity.CENTER_VERTICAL);
+            messageItemView.setTypeface(null, Typeface.BOLD);
+            messageItemView.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
+            messageItemView.setText(""+ InformationModel.unreadInfoCount());
+        }
+    }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -718,18 +747,19 @@ public class MainActivity extends BaseActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        if (id == R.id.nav_about) {
+            AboutUs.start(this,R.mipmap.ic_launcher,0,R.string.share_title,R.string.share_body_template,
+                    0,R.string.feedback_mail_to, R.string.feedback_title, R.string.feedback_body_template,
+                    0,R.raw.version_change_history, true, AppConfig.appLandingURL,
+                    false, "Ahsai001", AppConfig.mainURL,getString(R.string.feedback_mail_to),R.mipmap.ic_launcher,"2019\nAll right reserved",
+                    R.color.colorPrimary,ContextCompat.getColor(this,android.R.color.white),ContextCompat.getColor(this,android.R.color.white),AppConfig.aboutAppURL);
+        } else if (id == R.id.nav_app_list) {
+            AppListActivity.start(this);
+        } else if (id == R.id.nav_store) {
+            StoreActivity.start(this);
+        } else if (id == R.id.nav_message) {
+            MessageListActivity.start(this);
+        } else if (id == R.id.nav_home){
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "825086592106",
+    "firebase_url": "https://quds-player.firebaseio.com",
+    "project_id": "quds-player",
+    "storage_bucket": "quds-player.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:825086592106:android:1c53fd46f5e75afb",
+        "android_client_info": {
+          "package_name": "com.ahsailabs.qudsplayer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "825086592106-nhp2tb5kghl8ninlcei9tob25quopdiv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAL6n7ZGBe_ERmlt2v0L3WGutVkBEBSDMg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

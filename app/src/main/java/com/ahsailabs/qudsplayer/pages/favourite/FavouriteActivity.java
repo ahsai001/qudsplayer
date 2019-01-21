@@ -10,12 +10,15 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.ahsailabs.qudsplayer.R;
+import com.ahsailabs.qudsplayer.events.FavFABEvent;
 import com.ahsailabs.qudsplayer.pages.favourite.fragments.FavouriteActivityFragment;
 import com.ahsailabs.qudsplayer.pages.favourite.fragments.FavouritePlayListActivityFragment;
 import com.zaitunlabs.zlcore.core.BaseActivity;
 
-public class FavouriteActivity extends BaseActivity {
+import org.greenrobot.eventbus.EventBus;
 
+public class FavouriteActivity extends BaseActivity {
+    public FloatingActionButton fab;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,12 +30,11 @@ public class FavouriteActivity extends BaseActivity {
 
         showFragment(R.id.fragment,FavouritePlayListActivityFragment.class,null, null,"playlist");
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                EventBus.getDefault().post(new FavFABEvent());
             }
         });
     }

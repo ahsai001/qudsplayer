@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.ahsailabs.qudsplayer.R;
 import com.ahsailabs.qudsplayer.events.PlayThisEvent;
 import com.ahsailabs.qudsplayer.events.PlayThisListEvent;
+import com.ahsailabs.qudsplayer.pages.favourite.FavouriteActivity;
 import com.ahsailabs.qudsplayer.pages.favourite.adapters.FavouriteAdapter;
 import com.ahsailabs.qudsplayer.pages.favourite.adapters.FavouritePlayListAdapter;
 import com.ahsailabs.qudsplayer.pages.favourite.models.FavouriteModel;
@@ -46,6 +47,12 @@ public class FavouritePlayListActivityFragment extends BaseFragment {
 
         favouriteModelList = new ArrayList<>();
         favouriteAdapter = new FavouritePlayListAdapter(favouriteModelList);
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
 
         ((BaseActivity)getActivity()).getSupportActionBar().setTitle("Play List");
     }
@@ -89,6 +96,7 @@ public class FavouritePlayListActivityFragment extends BaseFragment {
         });
 
         swipeRefreshLayoutUtils.refreshNow();
+        ((FavouriteActivity)getActivity()).fab.setVisibility(View.GONE);
     }
 
     private void loadDB(){

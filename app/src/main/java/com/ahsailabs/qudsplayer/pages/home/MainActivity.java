@@ -2,6 +2,7 @@ package com.ahsailabs.qudsplayer.pages.home;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -14,6 +15,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.ContentFrameLayout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -49,6 +51,7 @@ import com.zaitunlabs.zlcore.activities.BookmarkListActivity;
 import com.zaitunlabs.zlcore.activities.MessageListActivity;
 import com.zaitunlabs.zlcore.activities.StoreActivity;
 import com.zaitunlabs.zlcore.core.BaseActivity;
+import com.zaitunlabs.zlcore.core.WebViewActivity;
 import com.zaitunlabs.zlcore.models.InformationModel;
 import com.zaitunlabs.zlcore.modules.about.AboutUs;
 import com.zaitunlabs.zlcore.utils.CommonUtils;
@@ -603,9 +606,18 @@ public class MainActivity extends BaseActivity
         String info = "Total : "+ filePathList.size()+" files";
         if(!TextUtils.isEmpty(repeatState)){
             info += "\n"+repeatState;
+            viewBindingUtils.getTextView(R.id.number_repeat_textview).setText(repeatState);
         }
         if(!TextUtils.isEmpty(playState)){
             info += "\n"+playState;
+            if(playState == STOP){
+                viewBindingUtils.getTextView(R.id.number_stop_textview).setText("play");
+            } else if(playState == PAUSE){
+                viewBindingUtils.getTextView(R.id.number_pause_textview).setText("play");
+            } else if(playState == PLAY){
+                viewBindingUtils.getTextView(R.id.number_stop_textview).setText("stop");
+                viewBindingUtils.getTextView(R.id.number_pause_textview).setText("pause");
+            }
         }
         if(playingNumber > 0){
             info += "\n"+playingNumber;
@@ -660,10 +672,10 @@ public class MainActivity extends BaseActivity
             playListIndex = 0;
             numberEditText.setText(favPlayList.get(playListIndex).getNumber());
             playButton.callOnClick();
+            invalidateOptionsMenu();
         } else {
             CommonUtils.showToast(MainActivity.this, "This favourite item is not from current sd card");
         }
-
     }
 
     private void reConfigurePlayList() {
@@ -719,6 +731,7 @@ public class MainActivity extends BaseActivity
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         menu.findItem(R.id.action_exit_play_list).setEnabled(isPlaylistMode);
+        menu.findItem(R.id.action_exit_play_list).setVisible(isPlaylistMode);
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -735,6 +748,7 @@ public class MainActivity extends BaseActivity
             isPlaylistMode = false;
             playListIndex = 0;
             reConfigurePlayList();
+            invalidateOptionsMenu();
             return true;
         }
 
@@ -760,6 +774,18 @@ public class MainActivity extends BaseActivity
         } else if (id == R.id.nav_message) {
             MessageListActivity.start(this);
         } else if (id == R.id.nav_home){
+        } else if(id == R.id.nav_socmed_facebook){
+            CommonUtils.openBrowser(MainActivity.this, "https://www.facebook.com/Speaker-Quran-QUDS-1195404403873415/");
+        } else if(id == R.id.nav_socmed_instagram){
+            CommonUtils.openBrowser(MainActivity.this, "https://www.instagram.com/speakerquranquds/");
+        } else if(id == R.id.nav_kontak){
+            WebViewActivity.start(MainActivity.this,"Silahkan hubungi kami di wa sekian","Hubungi Kami",
+                    "Maaf, jika ada kesalahan", ContextCompat.getColor(MainActivity.this,android.R.color.white),
+                    "tentangkami");
+        } else if(id == R.id.nav_tentang_kami){
+            WebViewActivity.start(MainActivity.this,"Halo kami adalah produsen speaker quds","Tentang Kami",
+                    "Maaf, jika ada kesalahan", ContextCompat.getColor(MainActivity.this,android.R.color.white),
+                    "tentangkami");
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -827,5 +853,10 @@ public class MainActivity extends BaseActivity
             storageDirectories = rv.toArray(new String[rv.size()]);
         }
         return storageDirectories;
+    }
+
+    public static void start(Context context){
+        Intent intent = new Intent(context, MainActivity.class);
+        context.startActivity(intent);
     }
 }

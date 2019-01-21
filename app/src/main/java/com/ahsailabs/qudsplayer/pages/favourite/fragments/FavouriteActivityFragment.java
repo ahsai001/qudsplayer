@@ -11,8 +11,10 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 
 import com.ahsailabs.qudsplayer.R;
+import com.ahsailabs.qudsplayer.events.FavFABEvent;
 import com.ahsailabs.qudsplayer.events.PlayThisEvent;
 import com.ahsailabs.qudsplayer.events.PlayThisListEvent;
+import com.ahsailabs.qudsplayer.pages.favourite.FavouriteActivity;
 import com.ahsailabs.qudsplayer.pages.favourite.adapters.FavouriteAdapter;
 import com.ahsailabs.qudsplayer.pages.favourite.models.FavouriteModel;
 import com.labo.kaji.fragmentanimations.MoveAnimation;
@@ -20,11 +22,13 @@ import com.zaitunlabs.zlcore.core.BaseActivity;
 import com.zaitunlabs.zlcore.core.BaseFragment;
 import com.zaitunlabs.zlcore.core.BaseRecyclerViewAdapter;
 import com.zaitunlabs.zlcore.utils.CommonUtils;
+import com.zaitunlabs.zlcore.utils.EventsUtils;
 import com.zaitunlabs.zlcore.utils.SwipeRefreshLayoutUtils;
 import com.zaitunlabs.zlcore.utils.ViewBindingUtils;
 import com.zaitunlabs.zlcore.views.CustomRecylerView;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,8 +60,26 @@ public class FavouriteActivityFragment extends BaseFragment {
         favouriteModelList = new ArrayList<>();
         favouriteAdapter = new FavouriteAdapter(favouriteModelList);
 
+        EventsUtils.register(this);
 
-        ((BaseActivity)getActivity()).getSupportActionBar().setTitle("Fav List");
+    }
+
+    @Override
+    public void onDestroy() {
+        EventsUtils.unregister(this);
+        super.onDestroy();
+    }
+
+    @Subscribe
+    public void onEvent(FavFABEvent event){
+        EventBus.getDefault().post(new PlayThisListEvent(favouriteModelList));
+        getActivity().finish();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((BaseActivity)getActivity()).getSupportActionBar().setTitle("Favourite List");
     }
 
     @Override
@@ -103,6 +125,7 @@ public class FavouriteActivityFragment extends BaseFragment {
         });
 
         swipeRefreshLayoutUtils.refreshNow();
+        ((FavouriteActivity)getActivity()).fab.setVisibility(View.VISIBLE);
     }
 
     private void loadDB(){

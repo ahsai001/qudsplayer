@@ -15,12 +15,12 @@
     <item android:title="Social Media" android:checkable="true">
         <menu>
             <item android:checkable="true"
-                android:id="@+id/nav_reviews_mobil"
-                android:icon="@drawable/baseline_sentiment_satisfied_alt_24"
+                android:id="@+id/nav_socmed_facebook"
+                android:icon="@drawable/baseline_web_24"
                 android:title="Facebook" />
             <item android:checkable="true"
-                android:id="@+id/nav_reviews_layanan"
-                android:icon="@drawable/baseline_sentiment_satisfied_alt_24"
+                android:id="@+id/nav_socmed_instagram"
+                android:icon="@drawable/baseline_web_24"
                 android:title="Instagram" />
         </menu>
     </item>
@@ -46,7 +46,7 @@
             <item
                 android:id="@+id/nav_message"
                 app:actionViewClass="android.widget.TextView"
-                android:icon="@drawable/baseline_sentiment_satisfied_alt_24"
+                android:icon="@drawable/baseline_notification_important_24"
                 android:title="Message" />
             <item
                 android:id="@+id/nav_store"
@@ -54,7 +54,7 @@
                 android:title="Store" />
             <item
                 android:id="@+id/nav_app_list"
-                android:icon="@drawable/baseline_sentiment_satisfied_alt_24"
+                android:icon="@drawable/baseline_apps_24"
                 android:title="Promoted Apps" />
             <item
                 android:id="@+id/nav_about"

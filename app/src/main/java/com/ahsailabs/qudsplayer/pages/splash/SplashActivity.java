@@ -1,5 +1,6 @@
 package com.ahsailabs.qudsplayer.pages.splash;
 
+import android.app.VoiceInteractor;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 
@@ -7,6 +8,7 @@ import com.ahsailabs.qudsplayer.R;
 import com.ahsailabs.qudsplayer.pages.home.MainActivity;
 import com.zaitunlabs.zlcore.activities.BaseSplashActivity;
 import com.zaitunlabs.zlcore.api.APIConstant;
+import com.zaitunlabs.zlcore.utils.CommonUtils;
 
 public class SplashActivity extends BaseSplashActivity {
     @Override
@@ -14,7 +16,8 @@ public class SplashActivity extends BaseSplashActivity {
         super.onCreate(savedInstanceState);
         setImageIcon(R.mipmap.ic_launcher);
         setBackgroundPaneColor(R.color.colorPrimary);
-        setTitleTextView("Quds Player", android.R.color.white);
+        setTitleTextView("Quds Player\n"+getString(R.string.nav_header_subtitle), android.R.color.white);
+        setBottomTextView("Quds Player v"+CommonUtils.getVersionName(SplashActivity.this), android.R.color.white);
     }
 
     @Override

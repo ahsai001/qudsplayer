@@ -15,7 +15,6 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.ContentFrameLayout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -47,7 +46,6 @@ import com.ahsailabs.qudsplayer.pages.favourite.FavouriteActivity;
 import com.ahsailabs.qudsplayer.pages.favourite.models.FavouriteModel;
 import com.ahsailabs.qudsplayer.views.TextInputAutoCompleteTextView;
 import com.zaitunlabs.zlcore.activities.AppListActivity;
-import com.zaitunlabs.zlcore.activities.BookmarkListActivity;
 import com.zaitunlabs.zlcore.activities.MessageListActivity;
 import com.zaitunlabs.zlcore.activities.StoreActivity;
 import com.zaitunlabs.zlcore.core.BaseActivity;
@@ -75,7 +73,7 @@ public class MainActivity extends BaseActivity
     List<String> filePathList = new ArrayList<>();
 
     TextView statusTextView;
-    EditText numberEditText;
+    TextView numberTextView;
     Button playButton;
 
     MediaPlayer mediaPlayer;
@@ -131,7 +129,7 @@ public class MainActivity extends BaseActivity
         viewBindingUtils = ViewBindingUtils.initWithParentView(findViewById(android.R.id.content));
 
         statusTextView = findViewById(R.id.status_textview);
-        numberEditText = findViewById(R.id.number_edittext);
+        numberTextView = findViewById(R.id.number_textview);
         playButton = findViewById(R.id.play_button);
 
 
@@ -199,23 +197,11 @@ public class MainActivity extends BaseActivity
         reCountMessage();
 
 
-        numberEditText.setImeOptions(EditorInfo.IME_ACTION_GO);
-        numberEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if(i == EditorInfo.IME_ACTION_GO){
-                    playButton.callOnClick();
-                    return true;
-                }
-                return false;
-            }
-        });
-
 
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String number = numberEditText.getText().toString();
+                String number = numberTextView.getText().toString();
                 if(!TextUtils.isEmpty(number)){
                     //do playing
                     int numberInt = Integer.parseInt(number);
@@ -246,7 +232,7 @@ public class MainActivity extends BaseActivity
                                             }
                                             nextNumber = favPlayList.get(playListIndex).getNumber();
                                         }
-                                        numberEditText.setText(nextNumber);
+                                        numberTextView.setText(nextNumber);
                                         playButton.callOnClick();
                                     } else {
                                         playState = STOP;
@@ -285,7 +271,7 @@ public class MainActivity extends BaseActivity
 
                     } else {
                         if(repeatState.equals(REPEAT_ALL)){
-                            numberEditText.setText("1");
+                            numberTextView.setText("1");
                             playButton.callOnClick();
                         }
                     }
@@ -408,7 +394,7 @@ public class MainActivity extends BaseActivity
                     }
                     prevNumber = favPlayList.get(playListIndex).getNumber();
                 }
-                numberEditText.setText(prevNumber);
+                numberTextView.setText(prevNumber);
                 playButton.callOnClick();
             }
         });
@@ -445,7 +431,7 @@ public class MainActivity extends BaseActivity
                     }
                     nextNumber = favPlayList.get(playListIndex).getNumber();
                 }
-                numberEditText.setText(nextNumber);
+                numberTextView.setText(nextNumber);
                 playButton.callOnClick();
             }
         });
@@ -626,10 +612,10 @@ public class MainActivity extends BaseActivity
     }
 
     private void appendNumber(String number){
-        if(numberEditText.length() == 4){
-            numberEditText.setText(number);
+        if(numberTextView.length() == 4){
+            numberTextView.setText(number);
         } else {
-            numberEditText.setText(numberEditText.getText()+number);
+            numberTextView.setText(numberTextView.getText()+number);
         }
     }
 
@@ -670,7 +656,7 @@ public class MainActivity extends BaseActivity
             repeatState = REPEAT_ALL;
             reConfigurePlayList();
             playListIndex = 0;
-            numberEditText.setText(favPlayList.get(playListIndex).getNumber());
+            numberTextView.setText(favPlayList.get(playListIndex).getNumber());
             playButton.callOnClick();
             invalidateOptionsMenu();
         } else {
@@ -697,7 +683,7 @@ public class MainActivity extends BaseActivity
     public void onEvent(PlayThisEvent event){
         FavouriteModel data = event.getData();
         if(filePathList.contains(data.getPathname())){
-            numberEditText.setText(data.getNumber());
+            numberTextView.setText(data.getNumber());
             playButton.callOnClick();
         } else {
             CommonUtils.showToast(MainActivity.this, "This favourite item is not from current sd card");
@@ -765,7 +751,7 @@ public class MainActivity extends BaseActivity
             AboutUs.start(this,R.mipmap.ic_launcher,0,R.string.share_title,R.string.share_body_template,
                     0,R.string.feedback_mail_to, R.string.feedback_title, R.string.feedback_body_template,
                     0,R.raw.version_change_history, true, AppConfig.appLandingURL,
-                    false, "Ahsai001", AppConfig.mainURL,getString(R.string.feedback_mail_to),R.mipmap.ic_launcher,"2019\nAll right reserved",
+                    false, "AhsaiLabs", AppConfig.devURL,getString(R.string.feedback_mail_to),R.drawable.ahsailabs_logo,"2019\nAll right reserved",
                     R.color.colorPrimary,ContextCompat.getColor(this,android.R.color.white),ContextCompat.getColor(this,android.R.color.white),AppConfig.aboutAppURL);
         } else if (id == R.id.nav_app_list) {
             AppListActivity.start(this);
@@ -773,7 +759,6 @@ public class MainActivity extends BaseActivity
             StoreActivity.start(this);
         } else if (id == R.id.nav_message) {
             MessageListActivity.start(this);
-        } else if (id == R.id.nav_home){
         } else if(id == R.id.nav_socmed_facebook){
             CommonUtils.openBrowser(MainActivity.this, "https://www.facebook.com/Speaker-Quran-QUDS-1195404403873415/");
         } else if(id == R.id.nav_socmed_instagram){

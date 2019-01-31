@@ -19,7 +19,7 @@
             android:id="@+id/nav_kontak"
             app:actionViewClass="android.widget.TextView"
             android:icon="@drawable/baseline_pan_tool_24"
-            android:title="Kontak" />
+            android:title="Hubungi Kami" />
     </group>
 
     <group android:id="@+id/nav_group_tentang_kami" android:checkableBehavior="single">

@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Quds Player</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Quds Player</string>
+    <string name="nav_header_subtitle">Extended functional player for micro sd from Quds</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_favourite">Favourite List</string>
+
+
+    <string name="share_title">Quds Player</string>
+    <string name="share_body_template">Quds Player\nextended functional player for micro sd from quds\n\nsilakan unduh di play store\n\nhttps://play.google.com/store/apps/details?id=com.ahsailabs.qudsplayer</string>
+    <string name="feedback_mail_to">ahsai001@gmail.com</string>
+    <string name="feedback_title">feedback for quds player</string>
+    <string name="feedback_body_template"></string>
+</resources>

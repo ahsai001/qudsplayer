@@ -14,7 +14,7 @@ public class SplashActivity extends BaseSplashActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setImageIcon(R.mipmap.ic_launcher);
+        setImageIcon(R.drawable.splash_logo);
         setBackgroundPaneColor(R.color.colorPrimary);
         setTitleTextView("Quds Player\n"+getString(R.string.nav_header_subtitle), android.R.color.white);
         setBottomTextView("Quds Player v"+CommonUtils.getVersionName(SplashActivity.this), android.R.color.white);

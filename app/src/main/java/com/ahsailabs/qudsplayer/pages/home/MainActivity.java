@@ -56,14 +56,17 @@ import com.zaitunlabs.zlcore.utils.CommonUtils;
 import com.zaitunlabs.zlcore.utils.EventsUtils;
 import com.zaitunlabs.zlcore.utils.PermissionUtils;
 import com.zaitunlabs.zlcore.utils.ViewBindingUtils;
+import com.zaitunlabs.zlcore.utils.ViewUtils;
 
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 public class MainActivity extends BaseActivity
@@ -131,13 +134,12 @@ public class MainActivity extends BaseActivity
         statusTextView = findViewById(R.id.status_textview);
         numberTextView = findViewById(R.id.number_textview);
         playButton = findViewById(R.id.play_button);
-
-
+        playButton.setBackground(ViewUtils.getSelectableItemBackgroundWithColor(MainActivity.this, ContextCompat.getColor(MainActivity.this, R.color.colorPrimary)));
 
         permissionUtils = PermissionUtils.checkPermissionAndGo(MainActivity.this, 1053, new Runnable() {
             @Override
             public void run() {
-                new AsyncTask<Void, Void, Void>() {
+                addAsync(new AsyncTask<Void, Void, Void>() {
                     public void walkDir(File dir) {
 
                         File[] listFile = dir.listFiles();
@@ -179,7 +181,7 @@ public class MainActivity extends BaseActivity
                     protected void onProgressUpdate(Void... values) {
                         updateInfo();
                     }
-                }.execute();
+                }.execute());
             }
         }, new Runnable() {
             @Override
@@ -473,7 +475,7 @@ public class MainActivity extends BaseActivity
                         return false;
                     }
                 });
-                CommonUtils.showDialog2OptionCustomView(MainActivity.this, customView, "Add "+playingNumber+" as Fav?",
+                CommonUtils.showDialog2OptionCustomView(MainActivity.this, customView, "Add number "+playingNumber+" as Favourite?",
                         "Add", new Runnable() {
                             @Override
                             public void run() {
@@ -764,11 +766,11 @@ public class MainActivity extends BaseActivity
         } else if(id == R.id.nav_socmed_instagram){
             CommonUtils.openBrowser(MainActivity.this, "https://www.instagram.com/speakerquranquds/");
         } else if(id == R.id.nav_kontak){
-            WebViewActivity.start(MainActivity.this,"Silahkan hubungi kami di wa sekian","Hubungi Kami",
+            WebViewActivity.start(MainActivity.this,"file:///android_asset/www/kontak.html","Hubungi Kami",
                     "Maaf, jika ada kesalahan", ContextCompat.getColor(MainActivity.this,android.R.color.white),
                     "tentangkami");
         } else if(id == R.id.nav_tentang_kami){
-            WebViewActivity.start(MainActivity.this,"Halo kami adalah produsen speaker quds","Tentang Kami",
+            WebViewActivity.start(MainActivity.this,"file:///android_asset/www/tentang_kami.html","Tentang Kami",
                     "Maaf, jika ada kesalahan", ContextCompat.getColor(MainActivity.this,android.R.color.white),
                     "tentangkami");
         }

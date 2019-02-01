@@ -1,19 +1,13 @@
 package com.ahsailabs.qudsplayer.pages.favourite.fragments;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.ahsailabs.qudsplayer.R;
-import com.ahsailabs.qudsplayer.events.PlayThisEvent;
-import com.ahsailabs.qudsplayer.events.PlayThisListEvent;
 import com.ahsailabs.qudsplayer.pages.favourite.FavouriteActivity;
-import com.ahsailabs.qudsplayer.pages.favourite.adapters.FavouriteAdapter;
 import com.ahsailabs.qudsplayer.pages.favourite.adapters.FavouritePlayListAdapter;
 import com.ahsailabs.qudsplayer.pages.favourite.models.FavouriteModel;
 import com.zaitunlabs.zlcore.core.BaseActivity;
@@ -22,8 +16,6 @@ import com.zaitunlabs.zlcore.core.BaseRecyclerViewAdapter;
 import com.zaitunlabs.zlcore.utils.SwipeRefreshLayoutUtils;
 import com.zaitunlabs.zlcore.utils.ViewBindingUtils;
 import com.zaitunlabs.zlcore.views.CustomRecylerView;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;

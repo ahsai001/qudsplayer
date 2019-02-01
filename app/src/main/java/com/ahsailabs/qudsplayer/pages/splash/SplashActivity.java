@@ -1,8 +1,6 @@
 package com.ahsailabs.qudsplayer.pages.splash;
 
-import android.app.VoiceInteractor;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 
 import com.ahsailabs.qudsplayer.R;
 import com.ahsailabs.qudsplayer.pages.home.MainActivity;

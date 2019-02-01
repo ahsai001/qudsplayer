@@ -3,15 +3,14 @@ package com.ahsailabs.qudsplayer.pages.favourite;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.Toolbar;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.ahsailabs.qudsplayer.R;
 import com.ahsailabs.qudsplayer.events.FavFABEvent;
-import com.ahsailabs.qudsplayer.pages.favourite.fragments.FavouriteActivityFragment;
 import com.ahsailabs.qudsplayer.pages.favourite.fragments.FavouritePlayListActivityFragment;
 import com.zaitunlabs.zlcore.core.BaseActivity;
 

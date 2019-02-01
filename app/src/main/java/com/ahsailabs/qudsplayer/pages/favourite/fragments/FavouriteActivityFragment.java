@@ -1,6 +1,6 @@
 package com.ahsailabs.qudsplayer.pages.favourite.fragments;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;

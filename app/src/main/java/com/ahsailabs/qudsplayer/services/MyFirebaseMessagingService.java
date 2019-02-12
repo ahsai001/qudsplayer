@@ -37,6 +37,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Map<String, String> data = remoteMessage.getData();
 
         NotificationUtils.onMessageReceived(getBaseContext(),data, notifTitle, notifBody
-        ,MainActivity.class, null, null, R.string.app_name,R.mipmap.ic_launcher);
+        ,MainActivity.class, null, null, R.string.app_name,R.mipmap.ic_launcher, null);
     }
 }

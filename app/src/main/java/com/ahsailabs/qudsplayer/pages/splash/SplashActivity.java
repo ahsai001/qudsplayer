@@ -24,8 +24,9 @@ public class SplashActivity extends BaseSplashActivity {
     }
 
     @Override
-    protected void doNextAction() {
+    protected boolean doNextAction() {
         MainActivity.start(SplashActivity.this);
+        return true;
     }
 
     @Override

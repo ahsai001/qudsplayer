@@ -46,10 +46,13 @@ import com.ahsailabs.qudsplayer.views.TextInputAutoCompleteTextView;
 import com.zaitunlabs.zlcore.activities.AppListActivity;
 import com.zaitunlabs.zlcore.activities.MessageListActivity;
 import com.zaitunlabs.zlcore.activities.StoreActivity;
+import com.zaitunlabs.zlcore.api.APIConstant;
 import com.zaitunlabs.zlcore.core.BaseActivity;
 import com.zaitunlabs.zlcore.core.WebViewActivity;
+import com.zaitunlabs.zlcore.events.InfoCounterEvent;
 import com.zaitunlabs.zlcore.models.InformationModel;
 import com.zaitunlabs.zlcore.modules.about.AboutUs;
+import com.zaitunlabs.zlcore.services.FCMIntentService;
 import com.zaitunlabs.zlcore.utils.CommonUtils;
 import com.zaitunlabs.zlcore.utils.EventsUtils;
 import com.zaitunlabs.zlcore.utils.PermissionUtils;
@@ -637,12 +640,24 @@ public class MainActivity extends BaseActivity
         }
     }
 
+    @Subscribe
+    public void onEvent(InfoCounterEvent event){
+        reCountMessage();
+    }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if(permissionUtils != null){
             permissionUtils.onRequestPermissionsResult(requestCode,permissions, grantResults);
         }
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FCMIntentService.startSending(MainActivity.this,APIConstant.API_APPID,false);
     }
 
     @Subscribe
@@ -777,7 +792,7 @@ public class MainActivity extends BaseActivity
     }
 
     private boolean checkSDCardStatus() {
-        String SDCardStatus = Environment.getExternalStorageState();
+        String sdCardStatus = Environment.getExternalStorageState();
 
         // MEDIA_UNKNOWN: unrecognized SD card
         // MEDIA_REMOVED: no SD card
@@ -785,7 +800,7 @@ public class MainActivity extends BaseActivity
         // MEDIA_CHECKING: preparing SD card
         // MEDIA_MOUNTED: mounted and ready to use
         // MEDIA_MOUNTED_READ_ONLY
-        switch (SDCardStatus) {
+        switch (sdCardStatus) {
             case Environment.MEDIA_MOUNTED:
                 return true;
             case Environment.MEDIA_MOUNTED_READ_ONLY:
@@ -820,7 +835,7 @@ public class MainActivity extends BaseActivity
                 }
                 if (path != null) {
                     if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && Environment.isExternalStorageRemovable(file))
-                            || rawSecondaryStoragesStr != null && rawSecondaryStoragesStr.contains(path)) {
+                            || (rawSecondaryStoragesStr != null && rawSecondaryStoragesStr.contains(path))) {
                         results.add(path);
                     }
                 }

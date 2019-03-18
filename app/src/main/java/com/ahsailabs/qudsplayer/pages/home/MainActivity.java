@@ -133,6 +133,7 @@ public class MainActivity extends BaseActivity
         statusTextView = findViewById(R.id.status_textview);
         numberTextView = findViewById(R.id.number_textview);
         playButton = findViewById(R.id.play_button);
+
         playButton.setBackground(ViewUtils.getSelectableItemBackgroundWithColor(MainActivity.this, ContextCompat.getColor(MainActivity.this, R.color.colorPrimary)));
 
         permissionUtils = PermissionUtils.checkPermissionAndGo(MainActivity.this, 1053, new Runnable() {

@@ -208,8 +208,13 @@ public class MainActivity extends BaseActivity
                     //do playing
                     int numberInt = Integer.parseInt(number);
 
+                    if(0 >= filePathList.size()){
+                        CommonUtils.showSnackBar(MainActivity.this, "Maaf, tidak ada audio yang terbaca");
+                        return;
+                    }
+
                     if(numberInt-1 > filePathList.size()){
-                        CommonUtils.showToast(MainActivity.this, "Maaf, tidak ada audio pada nomor ini");
+                        CommonUtils.showSnackBar(MainActivity.this, "Maaf, tidak ada audio pada nomor ini");
                         return;
                     }
 
@@ -266,7 +271,7 @@ public class MainActivity extends BaseActivity
                             }
                             playState = PLAY;
                         } catch (Exception e){
-                            CommonUtils.showToast(MainActivity.this, "Maaf, tidak bisa menjalankan audio ini");
+                            CommonUtils.showSnackBar(MainActivity.this, "Maaf, tidak bisa menjalankan audio ini");
                             e.printStackTrace();
                         }
 
@@ -439,7 +444,7 @@ public class MainActivity extends BaseActivity
         });
 
 
-        viewBindingUtils.getTextView(R.id.number_add_fav_textview).setOnClickListener(new View.OnClickListener() {
+        viewBindingUtils.getViewWithId(R.id.number_add_fav_textview).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(!playState.equals(PLAY)){

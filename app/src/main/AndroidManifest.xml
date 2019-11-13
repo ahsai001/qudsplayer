@@ -51,9 +51,6 @@
             </intent-filter>
         </service>
 
-        <provider android:exported="false"
-            android:authorities="com.ahsailabs.qudsplayer"
-            android:name="com.activeandroid.content.ContentProvider"/>
     </application>
 
 </manifest>

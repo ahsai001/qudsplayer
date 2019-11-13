@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.ahsailabs.qudsplayer.R;
 import com.ahsailabs.qudsplayer.pages.favourite.models.FavouriteModel;
 import com.zaitunlabs.zlcore.core.BaseRecyclerViewAdapter;
-import com.zaitunlabs.zlcore.utils.CommonUtils;
+import com.zaitunlabs.zlcore.utils.CommonUtil;
 
 import java.util.List;
 
@@ -85,7 +85,7 @@ public class FavouriteAdapter extends BaseRecyclerViewAdapter<FavouriteModel,Fav
     @Override
     public void onItemSwipe(RecyclerView.ViewHolder viewHolder, int direction) {
         final int position = viewHolder.getAdapterPosition();
-        CommonUtils.showDialog2Option(viewHolder.itemView.getContext(), "Delete Confirmation", "are you sure want to delete it?", "delete", new Runnable() {
+        CommonUtil.showDialog2Option(viewHolder.itemView.getContext(), "Delete Confirmation", "are you sure want to delete it?", "delete", new Runnable() {
             public void run() {
                 modelList.get(position).delete();
                 modelList.remove(position);

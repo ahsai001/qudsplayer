@@ -1,45 +1,19 @@
 package com.ahsailabs.qudsplayer.pages.favourite.models;
 
-import android.provider.BaseColumns;
-import android.view.Display;
+import com.ahsailabs.qudsplayer.cores.BaseApplication;
+import com.zaitunlabs.zlcore.utils.SQLiteWrapper;
 
-import com.activeandroid.Model;
-import com.activeandroid.annotation.Column;
-import com.activeandroid.annotation.Table;
-import com.activeandroid.query.Delete;
-import com.activeandroid.query.Select;
-import com.ahsailabs.qudsplayer.pages.favourite.adapters.FavouritePlayListAdapter;
-
-import java.io.Serializable;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
-@Table(name = "FavouriteModel", id = BaseColumns._ID)
-public class FavouriteModel extends Model implements Serializable {
-    @Column(name = "name")
+public class FavouriteModel extends SQLiteWrapper.TableClass {
     private String name;
-
-    @Column(name = "number")
     private String number;
-
-    @Column(name = "filename")
     private String filename;
-
-    @Column(name = "pathname")
     private String pathname;
-
-    @Column(name = "playlist")
     private String playlist;
 
     public FavouriteModel(){
         super();
-    }
-
-    public Date timestamp;
-    public void saveWithTimeStamp() {
-        this.timestamp = Calendar.getInstance().getTime();
-        this.save();
     }
 
     public String getName() {
@@ -82,19 +56,47 @@ public class FavouriteModel extends Model implements Serializable {
         this.number = number;
     }
 
+
+    @Override
+    protected String getDatabaseName() {
+        return BaseApplication.DATABASE_NAME;
+    }
+
+    @Override
+    protected void getObjectData(List<Object> dataList) {
+        dataList.add(name);
+        dataList.add(number);
+        dataList.add(filename);
+        dataList.add(pathname);
+        dataList.add(playlist);
+    }
+
+    @Override
+    protected void setObjectData(List<Object> dataList) {
+        name = (String) dataList.get(0);
+        number = (String) dataList.get(1);
+        filename = (String) dataList.get(2);
+        pathname = (String) dataList.get(3);
+        playlist = (String) dataList.get(4);
+    }
+
+
     public static List<FavouriteModel> getAll(){
-        return new Select().from(FavouriteModel.class).execute();
+        return SQLiteWrapper.of(BaseApplication.DATABASE_NAME).findAll(null, FavouriteModel.class);
     }
 
     public static List<FavouriteModel> getPlayList(){
-        return new Select().distinct().from(FavouriteModel.class).groupBy("playlist").execute();
+        return SQLiteWrapper.of(BaseApplication.DATABASE_NAME).selectQuery(true,null, FavouriteModel.class,
+                null, null, null,"playlist", null, null, null);
     }
 
     public static void deleteWithPlayList(String playListName){
-        new Delete().from(FavouriteModel.class).where("playlist = ?",playListName).execute();
+        SQLiteWrapper.of(BaseApplication.DATABASE_NAME).delete(null, FavouriteModel.class,
+                "playlist=?", new String[]{playListName});
     }
 
     public static List<FavouriteModel> getAllFromPlayList(String playListName){
-        return new Select().from(FavouriteModel.class).where("playlist = ?",playListName).execute();
+        return SQLiteWrapper.of(BaseApplication.DATABASE_NAME).findAllWithCriteria(null, FavouriteModel.class,
+                "playlist=?", new String[]{playListName});
     }
 }

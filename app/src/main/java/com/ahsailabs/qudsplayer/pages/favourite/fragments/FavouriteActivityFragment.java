@@ -21,10 +21,10 @@ import com.labo.kaji.fragmentanimations.MoveAnimation;
 import com.zaitunlabs.zlcore.core.BaseActivity;
 import com.zaitunlabs.zlcore.core.BaseFragment;
 import com.zaitunlabs.zlcore.core.BaseRecyclerViewAdapter;
-import com.zaitunlabs.zlcore.utils.CommonUtils;
-import com.zaitunlabs.zlcore.utils.EventsUtils;
-import com.zaitunlabs.zlcore.utils.SwipeRefreshLayoutUtils;
-import com.zaitunlabs.zlcore.utils.ViewBindingUtils;
+import com.zaitunlabs.zlcore.utils.CommonUtil;
+import com.zaitunlabs.zlcore.utils.EventsUtil;
+import com.zaitunlabs.zlcore.utils.SwipeRefreshLayoutUtil;
+import com.zaitunlabs.zlcore.utils.ViewBindingUtil;
 import com.zaitunlabs.zlcore.views.CustomRecylerView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -37,8 +37,8 @@ import java.util.List;
  * A placeholder fragment containing a simple view.
  */
 public class FavouriteActivityFragment extends BaseFragment {
-    ViewBindingUtils viewBindingUtils;
-    SwipeRefreshLayoutUtils swipeRefreshLayoutUtils;
+    ViewBindingUtil ViewBindingUtil;
+    SwipeRefreshLayoutUtil SwipeRefreshLayoutUtil;
     FavouriteAdapter favouriteAdapter;
     List<FavouriteModel> favouriteModelList;
     String playlistName;
@@ -60,13 +60,13 @@ public class FavouriteActivityFragment extends BaseFragment {
         favouriteModelList = new ArrayList<>();
         favouriteAdapter = new FavouriteAdapter(favouriteModelList);
 
-        EventsUtils.register(this);
+        EventsUtil.register(this);
 
     }
 
     @Override
     public void onDestroy() {
-        EventsUtils.unregister(this);
+        EventsUtil.unregister(this);
         super.onDestroy();
     }
 
@@ -91,8 +91,8 @@ public class FavouriteActivityFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewBindingUtils = ViewBindingUtils.initWithParentView(view);
-        playlistName = CommonUtils.getStringFragmentArgument(getArguments(),"playlist", "");
+        ViewBindingUtil = ViewBindingUtil.initWithParentView(view);
+        playlistName = CommonUtil.getStringFragmentArgument(getArguments(),"playlist", "");
     }
 
     @Override
@@ -103,16 +103,16 @@ public class FavouriteActivityFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        swipeRefreshLayoutUtils = SwipeRefreshLayoutUtils.init(viewBindingUtils.getSwipeRefreshLayout(R.id.favourite_refreshLayout), new Runnable() {
+        SwipeRefreshLayoutUtil = SwipeRefreshLayoutUtil.init(ViewBindingUtil.getSwipeRefreshLayout(R.id.favourite_refreshLayout), new Runnable() {
             @Override
             public void run() {
                 loadDB();
             }
         });
 
-        CustomRecylerView recylerView = viewBindingUtils.getCustomRecylerView(R.id.favourite_recylerView);
+        CustomRecylerView recylerView = ViewBindingUtil.getCustomRecylerView(R.id.favourite_recylerView);
         recylerView.init();
-        recylerView.setEmptyView(viewBindingUtils.getViewWithId(R.id.favourite_empty_view));
+        recylerView.setEmptyView(ViewBindingUtil.getViewWithId(R.id.favourite_empty_view));
         recylerView.setAdapter(favouriteAdapter);
 
         favouriteAdapter.setOnChildViewClickListener(new BaseRecyclerViewAdapter.OnChildViewClickListener() {
@@ -122,9 +122,14 @@ public class FavouriteActivityFragment extends BaseFragment {
                 EventBus.getDefault().post(new PlayThisEvent(selectedItem));
                 getActivity().finish();
             }
+
+            @Override
+            public void onLongClick(View view, Object dataModel, int position) {
+
+            }
         });
 
-        swipeRefreshLayoutUtils.refreshNow();
+        SwipeRefreshLayoutUtil.refreshNow();
         ((FavouriteActivity)getActivity()).fab.setVisibility(View.VISIBLE);
     }
 
@@ -135,7 +140,7 @@ public class FavouriteActivityFragment extends BaseFragment {
             favouriteModelList.addAll(dataList);
             favouriteAdapter.notifyDataSetChanged();
         }
-        swipeRefreshLayoutUtils.refreshDone();
+        SwipeRefreshLayoutUtil.refreshDone();
     }
 
     @Override

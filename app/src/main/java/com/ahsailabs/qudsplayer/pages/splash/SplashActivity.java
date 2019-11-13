@@ -6,7 +6,7 @@ import com.ahsailabs.qudsplayer.R;
 import com.ahsailabs.qudsplayer.pages.home.MainActivity;
 import com.zaitunlabs.zlcore.activities.BaseSplashActivity;
 import com.zaitunlabs.zlcore.api.APIConstant;
-import com.zaitunlabs.zlcore.utils.CommonUtils;
+import com.zaitunlabs.zlcore.utils.CommonUtil;
 
 public class SplashActivity extends BaseSplashActivity {
     @Override
@@ -15,7 +15,7 @@ public class SplashActivity extends BaseSplashActivity {
         setImageIcon(R.drawable.splash_logo);
         setBackgroundPaneColor(R.color.colorPrimary);
         setTitleTextView("Quds Player\n"+getString(R.string.nav_header_subtitle), android.R.color.white);
-        setBottomTextView("Quds Player v"+CommonUtils.getVersionName(SplashActivity.this), android.R.color.white);
+        setBottomTextView("Quds Player v"+CommonUtil.getVersionName(SplashActivity.this), android.R.color.white);
     }
 
     @Override
@@ -27,6 +27,11 @@ public class SplashActivity extends BaseSplashActivity {
     protected boolean doNextAction() {
         MainActivity.start(SplashActivity.this);
         return true;
+    }
+
+    @Override
+    protected boolean isMeidIncluded() {
+        return false;
     }
 
     @Override

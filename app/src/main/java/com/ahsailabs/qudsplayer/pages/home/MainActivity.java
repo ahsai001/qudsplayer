@@ -32,6 +32,7 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +44,7 @@ import com.ahsailabs.qudsplayer.events.PlayThisListEvent;
 import com.ahsailabs.qudsplayer.pages.favourite.FavouriteActivity;
 import com.ahsailabs.qudsplayer.pages.favourite.models.FavouriteModel;
 import com.ahsailabs.qudsplayer.views.TextInputAutoCompleteTextView;
+import com.google.android.material.snackbar.Snackbar;
 import com.zaitunlabs.zlcore.activities.AppListActivity;
 import com.zaitunlabs.zlcore.activities.MessageListActivity;
 import com.zaitunlabs.zlcore.activities.StoreActivity;
@@ -81,7 +83,7 @@ public class MainActivity extends BaseActivity
     MediaPlayer mediaPlayer;
     SeekBar playingSeekBar;
     ViewBindingUtil ViewBindingUtil;
-    PermissionUtil PermissionUtil;
+    PermissionUtil permissionUtil;
 
     final String NO_REPEAT = "no repeat";
     final String REPEAT_ONE = "repeat one";
@@ -102,6 +104,9 @@ public class MainActivity extends BaseActivity
 
 
     private TextView messageItemView;
+    private boolean isScanning = false;
+
+    private Snackbar scanLoading = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,7 +141,7 @@ public class MainActivity extends BaseActivity
 
         playButton.setBackground(ViewUtil.getSelectableItemBackgroundWithColor(MainActivity.this, ContextCompat.getColor(MainActivity.this, R.color.colorPrimary)));
 
-        PermissionUtil = PermissionUtil.checkPermissionAndGo(MainActivity.this, 1053, new Runnable() {
+        permissionUtil = PermissionUtil.checkPermissionAndGo(MainActivity.this, 1053, new Runnable() {
             @Override
             public void run() {
                 addAsync(new AsyncTask<Void, Void, Void>() {
@@ -157,15 +162,22 @@ public class MainActivity extends BaseActivity
 
                                         publishProgress();
 
-                                        Log.e("ahmad",fileName);
+                                        //Log.e("ahmad",fileName);
                                     } else {
-                                        Log.e("lain",fileName);
+                                        //Log.e("lain",fileName);
                                     }
                                 }
                             }
                         }
 
                         publishProgress();
+                    }
+
+                    @Override
+                    protected void onPreExecute() {
+                        super.onPreExecute();
+                        scanLoading = CommonUtil.showLoadingSnackBar(MainActivity.this, "Sedang membaca micro SD, harap bersabar");
+                        isScanning = true;
                     }
 
                     @Override
@@ -180,6 +192,13 @@ public class MainActivity extends BaseActivity
                     @Override
                     protected void onProgressUpdate(Void... values) {
                         updateInfo();
+                    }
+
+                    @Override
+                    protected void onPostExecute(Void aVoid) {
+                        super.onPostExecute(aVoid);
+                        isScanning = false;
+                        scanLoading.dismiss();
                     }
                 }.execute());
             }
@@ -270,6 +289,7 @@ public class MainActivity extends BaseActivity
                                 mediaPlayer.setLooping(false);
                             }
                             playState = PLAY;
+
                         } catch (Exception e){
                             CommonUtil.showSnackBar(MainActivity.this, "Maaf, tidak bisa menjalankan audio ini");
                             e.printStackTrace();
@@ -348,7 +368,7 @@ public class MainActivity extends BaseActivity
                 appendNumber("0");
             }
         });
-        ViewBindingUtil.getTextView(R.id.number_repeat_textview).setOnClickListener(new View.OnClickListener() {
+        ViewBindingUtil.getViewWithId(R.id.number_repeat_textview).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(repeatState.equals(NO_REPEAT)){
@@ -371,7 +391,7 @@ public class MainActivity extends BaseActivity
                 updateInfo();
             }
         });
-        ViewBindingUtil.getTextView(R.id.number_pause_textview).setOnClickListener(new View.OnClickListener() {
+        ViewBindingUtil.getViewWithId(R.id.number_pause_textview).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(playState.equals(PLAY)){
@@ -390,7 +410,7 @@ public class MainActivity extends BaseActivity
             }
         });
 
-        ViewBindingUtil.getTextView(R.id.number_prev_textview).setOnClickListener(new View.OnClickListener() {
+        ViewBindingUtil.getViewWithId(R.id.number_prev_textview).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String prevNumber = String.valueOf(playingNumber-1);
@@ -406,19 +426,14 @@ public class MainActivity extends BaseActivity
             }
         });
 
-        ViewBindingUtil.getTextView(R.id.number_stop_textview).setOnClickListener(new View.OnClickListener() {
+        ViewBindingUtil.getViewWithId(R.id.number_stop_textview).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(playState.equals(PLAY)){
+                if(playState.equals(PLAY) || playState.equals(PAUSE)){
                     playState = STOP;
                     if(mediaPlayer != null){
                         mediaPlayer.pause();
                         mediaPlayer.seekTo(0);
-                    }
-                } else if(playState.equals(STOP)){
-                    playState = PLAY;
-                    if(mediaPlayer != null){
-                        mediaPlayer.start();
                     }
                 }
 
@@ -427,7 +442,7 @@ public class MainActivity extends BaseActivity
             }
         });
 
-        ViewBindingUtil.getTextView(R.id.number_next_textview).setOnClickListener(new View.OnClickListener() {
+        ViewBindingUtil.getViewWithId(R.id.number_next_textview).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String nextNumber = String.valueOf(playingNumber+1);
@@ -503,7 +518,7 @@ public class MainActivity extends BaseActivity
         });
 
 
-        ViewBindingUtil.getTextView(R.id.number_backward_textview).setOnTouchListener(new View.OnTouchListener() {
+        ViewBindingUtil.getViewWithId(R.id.number_backward_textview).setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -524,7 +539,7 @@ public class MainActivity extends BaseActivity
             }
         });
 
-        ViewBindingUtil.getTextView(R.id.number_forward_textview).setOnTouchListener(new View.OnTouchListener() {
+        ViewBindingUtil.getViewWithId(R.id.number_forward_textview).setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -596,26 +611,46 @@ public class MainActivity extends BaseActivity
     }
 
     private void updateInfo(){
-        String info = "Total : "+ filePathList.size()+" files";
+        String info = "Total : "+ filePathList.size();
         if(!TextUtils.isEmpty(repeatState)){
-            info += "\n"+repeatState;
-            ViewBindingUtil.getTextView(R.id.number_repeat_textview).setText(repeatState);
+            info += "<br/>"+repeatState;
+
+            switch (repeatState) {
+                case NO_REPEAT:
+                    ((ImageView)ViewBindingUtil.getViewWithId(R.id.number_repeat_textview)).setImageResource(R.drawable.ic_repeat_no);
+                    break;
+                case REPEAT_ONE:
+                    ((ImageView)ViewBindingUtil.getViewWithId(R.id.number_repeat_textview)).setImageResource(R.drawable.ic_repeat_one);
+                    break;
+                case REPEAT_ALL:
+                    ((ImageView)ViewBindingUtil.getViewWithId(R.id.number_repeat_textview)).setImageResource(R.drawable.ic_repeat);
+                    break;
+            }
+
         }
         if(!TextUtils.isEmpty(playState)){
-            info += "\n"+playState;
-            if(playState == STOP){
-                ViewBindingUtil.getTextView(R.id.number_stop_textview).setText("play");
-            } else if(playState == PAUSE){
-                ViewBindingUtil.getTextView(R.id.number_pause_textview).setText("play");
-            } else if(playState == PLAY){
-                ViewBindingUtil.getTextView(R.id.number_stop_textview).setText("stop");
-                ViewBindingUtil.getTextView(R.id.number_pause_textview).setText("pause");
+            info += "<br/>"+playState;
+            switch (playState) {
+                case PAUSE:
+                    ((ImageView)ViewBindingUtil.getViewWithId(R.id.number_pause_textview)).setImageResource(R.drawable.ic_play_arrow);
+                    break;
+                case PLAY:
+                    ((ImageView)ViewBindingUtil.getViewWithId(R.id.number_pause_textview)).setImageResource(R.drawable.ic_pause);
+                    break;
             }
         }
         if(playingNumber > 0){
-            info += "\n"+playingNumber;
+            info += "<br/><b>"+playingNumber+"</b>";
         }
-        statusTextView.setText(info);
+
+        if(isPlaylistMode){
+            FavouriteModel selectedItem = favPlayList.get(playListIndex);
+            String title = selectedItem.getName()+" - "+selectedItem.getPlaylist();
+            info += "<b>("+title+")</b>";
+        }
+
+
+        statusTextView.setText(CommonUtil.fromHtml(info));
     }
 
     private void appendNumber(String number){
@@ -654,8 +689,8 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(PermissionUtil != null){
-            PermissionUtil.onRequestPermissionsResult(requestCode,permissions, grantResults);
+        if(permissionUtil != null){
+            permissionUtil.onRequestPermissionsResult(requestCode,permissions, grantResults);
         }
     }
 
@@ -673,6 +708,10 @@ public class MainActivity extends BaseActivity
             favPlayList.addAll(dataList);
             isPlaylistMode = true;
             repeatState = REPEAT_ALL;
+
+            String playListName = dataList.get(0).getPlaylist();
+            getSupportActionBar().setTitle(playListName);
+
             reConfigurePlayList();
             playListIndex = 0;
             numberTextView.setText(favPlayList.get(playListIndex).getNumber());
@@ -694,14 +733,18 @@ public class MainActivity extends BaseActivity
         ViewBindingUtil.getTextView(R.id.number_8_textview).setEnabled(!isPlaylistMode);
         ViewBindingUtil.getTextView(R.id.number_9_textview).setEnabled(!isPlaylistMode);
         ViewBindingUtil.getTextView(R.id.number_0_textview).setEnabled(!isPlaylistMode);
-        ViewBindingUtil.getTextView(R.id.number_add_fav_textview).setEnabled(!isPlaylistMode);
         playButton.setEnabled(!isPlaylistMode);
+
+        if(isPlaylistMode){
+
+        }
     }
 
     @Subscribe
     public void onEvent(PlayThisEvent event){
         FavouriteModel data = event.getData();
         if(filePathList.contains(data.getPathname())){
+            exitPlayList();
             numberTextView.setText(data.getNumber());
             playButton.callOnClick();
         } else {
@@ -722,7 +765,9 @@ public class MainActivity extends BaseActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if(!isScanning){
+                super.onBackPressed();
+            }
         }
     }
 
@@ -749,15 +794,23 @@ public class MainActivity extends BaseActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_exit_play_list) {
-            favPlayList.clear();
-            isPlaylistMode = false;
-            playListIndex = 0;
-            reConfigurePlayList();
-            invalidateOptionsMenu();
+            exitPlayList();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    private void exitPlayList(){
+        favPlayList.clear();
+        isPlaylistMode = false;
+        playListIndex = 0;
+
+        getSupportActionBar().setTitle(R.string.app_name);
+        reConfigurePlayList();
+
+        invalidateOptionsMenu();
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

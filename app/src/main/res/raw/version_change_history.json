@@ -1,5 +1,8 @@
 [
     {
+        "item": "version 1.0.3.10",
+        "description": "- update logo, themes and bug fixing some crash"
+    },{
         "item": "version 1.0.1.0",
         "description": "- versi awal aplikasi"
     }

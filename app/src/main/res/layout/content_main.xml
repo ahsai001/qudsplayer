@@ -41,34 +41,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TableRow android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="4dp">
-                <TextView android:id="@+id/number_1_textview" style="@style/customNumberTextView" android:layout_weight="1" android:layout_column="1" android:text="1"/>
-                <TextView android:id="@+id/number_2_textview" style="@style/customNumberTextView"  android:layout_weight="1" android:layout_column="2" android:text="2"/>
-                <TextView android:id="@+id/number_3_textview" style="@style/customNumberTextView"  android:layout_weight="1" android:layout_column="3" android:text="3"/>
+                <TextView android:id="@+id/number_1_textview" style="@style/customNumberTextView" android:layout_column="1" android:text="1"/>
+                <TextView android:id="@+id/number_2_textview" style="@style/customNumberTextView"  android:layout_column="2" android:text="2"/>
+                <TextView android:id="@+id/number_3_textview" style="@style/customNumberTextView"  android:layout_column="3" android:text="3"/>
             </TableRow>
             <TableRow android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="4dp">
-                <TextView android:id="@+id/number_4_textview" style="@style/customNumberTextView" android:layout_weight="1" android:layout_column="1" android:text="4"/>
-                <TextView android:id="@+id/number_5_textview" style="@style/customNumberTextView"  android:layout_weight="1" android:layout_column="2" android:text="5"/>
-                <TextView android:id="@+id/number_6_textview" style="@style/customNumberTextView"  android:layout_weight="1" android:layout_column="3" android:text="6"/>
+                <TextView android:id="@+id/number_4_textview" style="@style/customNumberTextView" android:layout_column="1" android:text="4"/>
+                <TextView android:id="@+id/number_5_textview" style="@style/customNumberTextView"  android:layout_column="2" android:text="5"/>
+                <TextView android:id="@+id/number_6_textview" style="@style/customNumberTextView"  android:layout_column="3" android:text="6"/>
             </TableRow>
             <TableRow android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="4dp">
-                <TextView android:id="@+id/number_7_textview" style="@style/customNumberTextView"  android:layout_weight="1" android:layout_column="1" android:text="7"/>
-                <TextView android:id="@+id/number_8_textview" style="@style/customNumberTextView"  android:layout_weight="1"  android:layout_column="2" android:text="8"/>
-                <TextView android:id="@+id/number_9_textview" style="@style/customNumberTextView"  android:layout_weight="1" android:layout_column="3" android:text="9"/>
+                <TextView android:id="@+id/number_7_textview" style="@style/customNumberTextView"  android:layout_column="1" android:text="7"/>
+                <TextView android:id="@+id/number_8_textview" style="@style/customNumberTextView"   android:layout_column="2" android:text="8"/>
+                <TextView android:id="@+id/number_9_textview" style="@style/customNumberTextView"  android:layout_column="3" android:text="9"/>
             </TableRow>
             <TableRow android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="4dp">
-                <TextView android:id="@+id/number_repeat_textview" style="@style/customNumberTextView"  android:layout_weight="1" android:layout_column="1" android:text="repeat"/>
-                <TextView android:id="@+id/number_0_textview" style="@style/customNumberTextView"  android:layout_weight="1"  android:layout_column="2" android:text="0"/>
-                <TextView android:id="@+id/number_pause_textview" style="@style/customNumberTextView"  android:layout_weight="1" android:layout_column="3" android:text="pause/play"/>
+               <ImageView android:id="@+id/number_repeat_textview" android:src="@drawable/ic_repeat_no" android:tint="@color/colorPrimary" style="@style/customNumberTextView"  android:layout_column="1"/>
+                <TextView android:id="@+id/number_0_textview" style="@style/customNumberTextView" android:layout_column="2" android:text="0"/>
+                <ImageView android:id="@+id/number_pause_textview" android:src="@drawable/ic_pause" android:tint="@color/colorPrimary" style="@style/customNumberTextView"  android:layout_column="3"/>
+
             </TableRow>
             <TableRow android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="4dp">
-                <TextView android:id="@+id/number_prev_textview" style="@style/customNumberTextView"  android:layout_weight="1" android:layout_column="1" android:text="prev"/>
-                <TextView android:id="@+id/number_stop_textview" style="@style/customNumberTextView"  android:layout_weight="1"  android:layout_column="2" android:text="stop/play"/>
-                <TextView android:id="@+id/number_next_textview" style="@style/customNumberTextView"  android:layout_weight="1" android:layout_column="3" android:text="next"/>
+                <ImageView android:id="@+id/number_prev_textview" android:src="@drawable/ic_prev" android:tint="@color/colorPrimary" style="@style/customNumberTextView"  android:layout_column="1"/>
+                <ImageView android:id="@+id/number_stop_textview" android:src="@drawable/ic_stop" android:tint="@color/colorPrimary" style="@style/customNumberTextView"  android:layout_column="2"/>
+                <ImageView android:id="@+id/number_next_textview" android:src="@drawable/ic_next" android:tint="@color/colorPrimary" style="@style/customNumberTextView"  android:layout_column="3"/>
             </TableRow>
             <TableRow android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="4dp">
-                <TextView android:id="@+id/number_backward_textview" style="@style/customNumberTextView"  android:layout_weight="1" android:layout_column="1" android:text="rewind"/>
-                <ImageView android:src="@drawable/baseline_favorite_24" android:tint="@color/colorPrimary" android:id="@+id/number_add_fav_textview" style="@style/customNumberTextView" android:layout_weight="1"  android:layout_column="2"/>
-                <TextView android:id="@+id/number_forward_textview" style="@style/customNumberTextView"  android:layout_weight="1" android:layout_column="3" android:text="forward"/>
+                <ImageView android:id="@+id/number_backward_textview" android:src="@drawable/ic_rewind" android:tint="@color/colorPrimary" style="@style/customNumberTextView"  android:layout_column="1"/>
+                <ImageView android:id="@+id/number_add_fav_textview" android:src="@drawable/baseline_favorite_24" android:tint="@color/colorPrimary" style="@style/customNumberTextView"  android:layout_column="2"/>
+                <ImageView android:id="@+id/number_forward_textview" android:src="@drawable/ic_forward" android:tint="@color/colorPrimary" style="@style/customNumberTextView"  android:layout_column="3"/>
+
             </TableRow>
         </TableLayout>
 

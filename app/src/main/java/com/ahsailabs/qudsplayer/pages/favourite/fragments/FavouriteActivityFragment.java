@@ -37,8 +37,8 @@ import java.util.List;
  * A placeholder fragment containing a simple view.
  */
 public class FavouriteActivityFragment extends BaseFragment {
-    ViewBindingUtil ViewBindingUtil;
-    SwipeRefreshLayoutUtil SwipeRefreshLayoutUtil;
+    ViewBindingUtil viewBindingUtil;
+    SwipeRefreshLayoutUtil swipeRefreshLayoutUtil;
     FavouriteAdapter favouriteAdapter;
     List<FavouriteModel> favouriteModelList;
     String playlistName;
@@ -91,7 +91,7 @@ public class FavouriteActivityFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ViewBindingUtil = ViewBindingUtil.initWithParentView(view);
+        viewBindingUtil = viewBindingUtil.initWithParentView(view);
         playlistName = CommonUtil.getStringFragmentArgument(getArguments(),"playlist", "");
     }
 
@@ -103,16 +103,16 @@ public class FavouriteActivityFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        SwipeRefreshLayoutUtil = SwipeRefreshLayoutUtil.init(ViewBindingUtil.getSwipeRefreshLayout(R.id.favourite_refreshLayout), new Runnable() {
+        swipeRefreshLayoutUtil = swipeRefreshLayoutUtil.init(viewBindingUtil.getSwipeRefreshLayout(R.id.favourite_refreshLayout), new Runnable() {
             @Override
             public void run() {
                 loadDB();
             }
         });
 
-        CustomRecylerView recylerView = ViewBindingUtil.getCustomRecylerView(R.id.favourite_recylerView);
+        CustomRecylerView recylerView = viewBindingUtil.getCustomRecylerView(R.id.favourite_recylerView);
         recylerView.init();
-        recylerView.setEmptyView(ViewBindingUtil.getViewWithId(R.id.favourite_empty_view));
+        recylerView.setEmptyView(viewBindingUtil.getViewWithId(R.id.favourite_empty_view));
         recylerView.setAdapter(favouriteAdapter);
 
         favouriteAdapter.setOnChildViewClickListener(new BaseRecyclerViewAdapter.OnChildViewClickListener() {
@@ -129,7 +129,7 @@ public class FavouriteActivityFragment extends BaseFragment {
             }
         });
 
-        SwipeRefreshLayoutUtil.refreshNow();
+        swipeRefreshLayoutUtil.refreshNow();
         ((FavouriteActivity)getActivity()).fab.setVisibility(View.VISIBLE);
     }
 
@@ -140,7 +140,7 @@ public class FavouriteActivityFragment extends BaseFragment {
             favouriteModelList.addAll(dataList);
             favouriteAdapter.notifyDataSetChanged();
         }
-        SwipeRefreshLayoutUtil.refreshDone();
+        swipeRefreshLayoutUtil.refreshDone();
     }
 
     @Override

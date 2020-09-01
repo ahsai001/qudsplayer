@@ -6,4 +6,4 @@ Fitur :
   2. Playlist
   3. Favourite
   
-Jika ingin tahu bagaimana sih speaker quds dan microsd nya, silahkan kunjungi IG https://www.instagram.com/p/Bk4uSfpAchb/
+Jika ingin tahu bagaimana sih speaker quds dan microsd nya, silahkan kunjungi IG https://www.instagram.com/almuwahhidstore/

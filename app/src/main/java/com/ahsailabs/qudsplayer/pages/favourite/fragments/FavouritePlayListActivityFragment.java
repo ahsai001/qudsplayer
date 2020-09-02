@@ -9,9 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ahsailabs.qudsplayer.R;
+import com.ahsailabs.qudsplayer.configs.AppConfig;
 import com.ahsailabs.qudsplayer.pages.favourite.FavouriteActivity;
 import com.ahsailabs.qudsplayer.pages.favourite.adapters.FavouritePlayListAdapter;
 import com.ahsailabs.qudsplayer.pages.favourite.models.FavouriteModel;
+import com.ahsailabs.sqlitewrapper.Lookup;
 import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -86,7 +88,7 @@ public class FavouritePlayListActivityFragment extends BaseFragment {
         recylerView.setEmptyView(viewBindingUtil.getViewWithId(R.id.favourite_empty_view));
         recylerView.setAdapter(favouriteAdapter);
 
-        favouriteAdapter.setOnChildViewClickListener(new BaseRecyclerViewAdapter.OnChildViewClickListener() {
+        favouriteAdapter.addOnChildViewClickListener(new BaseRecyclerViewAdapter.OnChildViewClickListener() {
             @Override
             public void onClick(View view, Object o, int i) {
                 FavouriteModel selectedItem = (FavouriteModel)o;
@@ -106,41 +108,19 @@ public class FavouritePlayListActivityFragment extends BaseFragment {
         ((FavouriteActivity)getActivity()).fab.setVisibility(View.GONE);
     }
 
-    private void loadCloudListAndDB(){
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("playlists").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                List<FavouriteModel> cloudList = new ArrayList<>();
-                if(task.isSuccessful()){
-                    for (QueryDocumentSnapshot snapshot : task.getResult()){
-                        Map<String, Object> data = snapshot.getData();
-                        FavouriteModel item = new FavouriteModel();
-                    }
-                }
-
-                loadDB();
-            }
-        }).addOnCanceledListener(new OnCanceledListener() {
-            @Override
-            public void onCanceled() {
-                loadDB();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                loadDB();
-            }
-        });
-    }
-    
     private void loadDB(){
+        favouriteModelList.clear();
+
+        FavouriteModel qudsIndex = new FavouriteModel();
+        qudsIndex.setPlaylist(AppConfig.QudsQidsIndexPlayList);
+        favouriteModelList.add(qudsIndex);
+
         List<FavouriteModel> dataList = FavouriteModel.getPlayList();
         if(dataList != null && dataList.size() > 0) {
-            favouriteModelList.clear();
             favouriteModelList.addAll(dataList);
-            favouriteAdapter.notifyDataSetChanged();
         }
+
+        favouriteAdapter.notifyDataSetChanged();
         swipeRefreshLayoutUtil.refreshDone();
     }
 }

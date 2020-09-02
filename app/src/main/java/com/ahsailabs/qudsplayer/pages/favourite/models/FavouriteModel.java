@@ -1,7 +1,7 @@
 package com.ahsailabs.qudsplayer.pages.favourite.models;
 
 import com.ahsailabs.qudsplayer.cores.BaseApplication;
-import com.zaitunlabs.zlcore.utils.SQLiteWrapper;
+import com.ahsailabs.sqlitewrapper.SQLiteWrapper;
 
 import java.util.List;
 

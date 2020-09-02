@@ -1,5 +1,6 @@
 package com.ahsailabs.qudsplayer.pages.favourite.fragments;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,12 +12,21 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 
 import com.ahsailabs.qudsplayer.R;
+import com.ahsailabs.qudsplayer.configs.AppConfig;
 import com.ahsailabs.qudsplayer.events.FavFABEvent;
 import com.ahsailabs.qudsplayer.events.PlayThisEvent;
 import com.ahsailabs.qudsplayer.events.PlayThisListEvent;
 import com.ahsailabs.qudsplayer.pages.favourite.FavouriteActivity;
 import com.ahsailabs.qudsplayer.pages.favourite.adapters.FavouriteAdapter;
 import com.ahsailabs.qudsplayer.pages.favourite.models.FavouriteModel;
+import com.ahsailabs.sqlitewrapper.Lookup;
+import com.google.android.gms.tasks.OnCanceledListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.labo.kaji.fragmentanimations.MoveAnimation;
 import com.zaitunlabs.zlcore.core.BaseActivity;
 import com.zaitunlabs.zlcore.core.BaseFragment;
@@ -32,6 +42,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -115,7 +126,7 @@ public class FavouriteActivityFragment extends BaseFragment {
         recylerView.setEmptyView(viewBindingUtil.getViewWithId(R.id.favourite_empty_view));
         recylerView.setAdapter(favouriteAdapter);
 
-        favouriteAdapter.setOnChildViewClickListener(new BaseRecyclerViewAdapter.OnChildViewClickListener() {
+        favouriteAdapter.addOnChildViewClickListener(new BaseRecyclerViewAdapter.OnChildViewClickListener() {
             @Override
             public void onClick(View view, Object o, int i) {
                 FavouriteModel selectedItem = (FavouriteModel)o;
@@ -133,14 +144,55 @@ public class FavouriteActivityFragment extends BaseFragment {
         ((FavouriteActivity)getActivity()).fab.setVisibility(View.VISIBLE);
     }
 
+    private void loadQudsQidsIndexList(){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("playlists").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    List<FavouriteModel> qudsQidsIndexList = new ArrayList<>();
+                    for (QueryDocumentSnapshot snapshot : task.getResult()){
+                        Map<String, Object> data = snapshot.getData();
+                        FavouriteModel item = new FavouriteModel();
+                        item.setName((String) data.get("name"));
+                        item.setPlaylist(AppConfig.QudsQidsIndexPlayList);
+                        item.setNumber((String) data.get("number"));
+                        qudsQidsIndexList.add(item);
+                    }
+                    
+                    favouriteModelList.clear();
+                    favouriteModelList.addAll(qudsQidsIndexList);
+                    favouriteAdapter.notifyDataSetChanged();
+                }
+
+                swipeRefreshLayoutUtil.refreshDone();
+            }
+        }).addOnCanceledListener(new OnCanceledListener() {
+            @Override
+            public void onCanceled() {
+                swipeRefreshLayoutUtil.refreshDone();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                swipeRefreshLayoutUtil.refreshDone();
+            }
+        });
+    }
+
     private void loadDB(){
-        List<FavouriteModel> dataList = FavouriteModel.getAllFromPlayList(playlistName);
-        if(dataList != null && dataList.size() > 0) {
-            favouriteModelList.clear();
-            favouriteModelList.addAll(dataList);
-            favouriteAdapter.notifyDataSetChanged();
+        if(playlistName.contains(AppConfig.QudsQidsIndexPlayList)){
+            loadQudsQidsIndexList();
+        } else {
+            List<FavouriteModel> dataList = FavouriteModel.getAllFromPlayList(playlistName);
+            if (dataList != null && dataList.size() > 0) {
+                favouriteModelList.clear();
+                favouriteModelList.addAll(dataList);
+                favouriteAdapter.notifyDataSetChanged();
+            }
+
+            swipeRefreshLayoutUtil.refreshDone();
         }
-        swipeRefreshLayoutUtil.refreshDone();
     }
 
     @Override

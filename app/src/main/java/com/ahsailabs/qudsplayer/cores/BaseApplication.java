@@ -3,8 +3,9 @@ package com.ahsailabs.qudsplayer.cores;
 import android.content.Context;
 
 import com.ahsailabs.qudsplayer.pages.favourite.models.FavouriteModel;
+import com.ahsailabs.sqlitewrapper.Lookup;
+import com.ahsailabs.sqlitewrapper.SQLiteWrapper;
 import com.zaitunlabs.zlcore.api.APIConstant ;
-import com.zaitunlabs.zlcore.utils.SQLiteWrapper;
 
 public class BaseApplication extends com.zaitunlabs.zlcore.core.BaseApplication {
     public static final String DATABASE_NAME = "qudsplayer.db";
@@ -43,5 +44,7 @@ public class BaseApplication extends com.zaitunlabs.zlcore.core.BaseApplication 
                         .addIndex("playlist"));
             }
         });
+
+        Lookup.init(this, true);
     }
 }

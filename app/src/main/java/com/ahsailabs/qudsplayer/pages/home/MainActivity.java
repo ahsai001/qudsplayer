@@ -66,15 +66,16 @@ import org.greenrobot.eventbus.Subscribe;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
     List<String> fileNameList = new ArrayList<>();
     List<String> filePathList = new ArrayList<>();
+    HashMap<String, String> fileMap = new HashMap<>();
 
     TextView statusTextView;
     TextView numberTextView;
@@ -82,7 +83,7 @@ public class MainActivity extends BaseActivity
 
     MediaPlayer mediaPlayer;
     SeekBar playingSeekBar;
-    ViewBindingUtil ViewBindingUtil;
+    ViewBindingUtil viewBindingUtil;
     PermissionUtil permissionUtil;
 
     final String NO_REPEAT = "no repeat";
@@ -133,7 +134,7 @@ public class MainActivity extends BaseActivity
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setItemIconTintList(null);
 
-        ViewBindingUtil = ViewBindingUtil.initWithParentView(findViewById(android.R.id.content));
+        viewBindingUtil = viewBindingUtil.initWithParentView(findViewById(android.R.id.content));
 
         statusTextView = findViewById(R.id.status_textview);
         numberTextView = findViewById(R.id.number_textview);
@@ -157,14 +158,21 @@ public class MainActivity extends BaseActivity
                                     String fileName = listFile[i].getName();
                                     String pathName = listFile[i].getPath();
                                     if (fileName.endsWith(".mp3") || fileName.endsWith(".MP3") || fileName.endsWith(".wma")) {
+                                        //remove extension
+                                        fileName = fileName.replace(".mp3","").replace(".MP3","").replace(".wma","");
+
+                                        fileMap.put(fileName, pathName);
+
                                         fileNameList.add(fileName);
                                         filePathList.add(pathName);
 
                                         publishProgress();
 
-                                        //Log.e("ahmad",fileName);
+                                        Log.e("audio OK fileName",fileName);
+                                        Log.e("audio OK pathName",pathName);
                                     } else {
-                                        //Log.e("lain",fileName);
+                                        Log.e("audio NOK fileName",fileName);
+                                        Log.e("audio NOK pathName",pathName);
                                     }
                                 }
                             }
@@ -308,67 +316,67 @@ public class MainActivity extends BaseActivity
         });
 
 
-        ViewBindingUtil.getTextView(R.id.number_1_textview).setOnClickListener(new View.OnClickListener() {
+        viewBindingUtil.getTextView(R.id.number_1_textview).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 appendNumber("1");
             }
         });
-        ViewBindingUtil.getTextView(R.id.number_2_textview).setOnClickListener(new View.OnClickListener() {
+        viewBindingUtil.getTextView(R.id.number_2_textview).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 appendNumber("2");
             }
         });
-        ViewBindingUtil.getTextView(R.id.number_3_textview).setOnClickListener(new View.OnClickListener() {
+        viewBindingUtil.getTextView(R.id.number_3_textview).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 appendNumber("3");
             }
         });
-        ViewBindingUtil.getTextView(R.id.number_4_textview).setOnClickListener(new View.OnClickListener() {
+        viewBindingUtil.getTextView(R.id.number_4_textview).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 appendNumber("4");
             }
         });
-        ViewBindingUtil.getTextView(R.id.number_5_textview).setOnClickListener(new View.OnClickListener() {
+        viewBindingUtil.getTextView(R.id.number_5_textview).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 appendNumber("5");
             }
         });
-        ViewBindingUtil.getTextView(R.id.number_6_textview).setOnClickListener(new View.OnClickListener() {
+        viewBindingUtil.getTextView(R.id.number_6_textview).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 appendNumber("6");
             }
         });
-        ViewBindingUtil.getTextView(R.id.number_7_textview).setOnClickListener(new View.OnClickListener() {
+        viewBindingUtil.getTextView(R.id.number_7_textview).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 appendNumber("7");
             }
         });
-        ViewBindingUtil.getTextView(R.id.number_8_textview).setOnClickListener(new View.OnClickListener() {
+        viewBindingUtil.getTextView(R.id.number_8_textview).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 appendNumber("8");
             }
         });
-        ViewBindingUtil.getTextView(R.id.number_9_textview).setOnClickListener(new View.OnClickListener() {
+        viewBindingUtil.getTextView(R.id.number_9_textview).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 appendNumber("9");
             }
         });
-        ViewBindingUtil.getTextView(R.id.number_0_textview).setOnClickListener(new View.OnClickListener() {
+        viewBindingUtil.getTextView(R.id.number_0_textview).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 appendNumber("0");
             }
         });
-        ViewBindingUtil.getViewWithId(R.id.number_repeat_textview).setOnClickListener(new View.OnClickListener() {
+        viewBindingUtil.getViewWithId(R.id.number_repeat_textview).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(repeatState.equals(NO_REPEAT)){
@@ -391,7 +399,7 @@ public class MainActivity extends BaseActivity
                 updateInfo();
             }
         });
-        ViewBindingUtil.getViewWithId(R.id.number_pause_textview).setOnClickListener(new View.OnClickListener() {
+        viewBindingUtil.getViewWithId(R.id.number_pause_textview).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(playState.equals(PLAY)){
@@ -410,7 +418,7 @@ public class MainActivity extends BaseActivity
             }
         });
 
-        ViewBindingUtil.getViewWithId(R.id.number_prev_textview).setOnClickListener(new View.OnClickListener() {
+        viewBindingUtil.getViewWithId(R.id.number_prev_textview).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String prevNumber = String.valueOf(playingNumber-1);
@@ -426,7 +434,7 @@ public class MainActivity extends BaseActivity
             }
         });
 
-        ViewBindingUtil.getViewWithId(R.id.number_stop_textview).setOnClickListener(new View.OnClickListener() {
+        viewBindingUtil.getViewWithId(R.id.number_stop_textview).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(playState.equals(PLAY) || playState.equals(PAUSE)){
@@ -442,7 +450,7 @@ public class MainActivity extends BaseActivity
             }
         });
 
-        ViewBindingUtil.getViewWithId(R.id.number_next_textview).setOnClickListener(new View.OnClickListener() {
+        viewBindingUtil.getViewWithId(R.id.number_next_textview).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String nextNumber = String.valueOf(playingNumber+1);
@@ -459,7 +467,7 @@ public class MainActivity extends BaseActivity
         });
 
 
-        ViewBindingUtil.getViewWithId(R.id.number_add_fav_textview).setOnClickListener(new View.OnClickListener() {
+        viewBindingUtil.getViewWithId(R.id.number_add_fav_textview).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(!playState.equals(PLAY)){
@@ -505,7 +513,8 @@ public class MainActivity extends BaseActivity
                                 FavouriteModel favouriteModel = new FavouriteModel();
                                 favouriteModel.setName(name);
                                 favouriteModel.setPlaylist(playlist);
-                                favouriteModel.setNumber(String.valueOf(playingNumber));
+                                //favouriteModel.setNumber(String.valueOf(playingNumber));
+                                favouriteModel.setNumber(fileName);
                                 favouriteModel.setFilename(fileName);
                                 favouriteModel.setPathname(filePath);
                                 favouriteModel.save();
@@ -518,7 +527,7 @@ public class MainActivity extends BaseActivity
         });
 
 
-        ViewBindingUtil.getViewWithId(R.id.number_backward_textview).setOnTouchListener(new View.OnTouchListener() {
+        viewBindingUtil.getViewWithId(R.id.number_backward_textview).setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -539,7 +548,7 @@ public class MainActivity extends BaseActivity
             }
         });
 
-        ViewBindingUtil.getViewWithId(R.id.number_forward_textview).setOnTouchListener(new View.OnTouchListener() {
+        viewBindingUtil.getViewWithId(R.id.number_forward_textview).setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -617,13 +626,13 @@ public class MainActivity extends BaseActivity
 
             switch (repeatState) {
                 case NO_REPEAT:
-                    ((ImageView)ViewBindingUtil.getViewWithId(R.id.number_repeat_textview)).setImageResource(R.drawable.ic_repeat_no);
+                    ((ImageView) viewBindingUtil.getViewWithId(R.id.number_repeat_textview)).setImageResource(R.drawable.ic_repeat_no);
                     break;
                 case REPEAT_ONE:
-                    ((ImageView)ViewBindingUtil.getViewWithId(R.id.number_repeat_textview)).setImageResource(R.drawable.ic_repeat_one);
+                    ((ImageView) viewBindingUtil.getViewWithId(R.id.number_repeat_textview)).setImageResource(R.drawable.ic_repeat_one);
                     break;
                 case REPEAT_ALL:
-                    ((ImageView)ViewBindingUtil.getViewWithId(R.id.number_repeat_textview)).setImageResource(R.drawable.ic_repeat);
+                    ((ImageView) viewBindingUtil.getViewWithId(R.id.number_repeat_textview)).setImageResource(R.drawable.ic_repeat);
                     break;
             }
 
@@ -632,10 +641,10 @@ public class MainActivity extends BaseActivity
             info += "<br/>"+playState;
             switch (playState) {
                 case PAUSE:
-                    ((ImageView)ViewBindingUtil.getViewWithId(R.id.number_pause_textview)).setImageResource(R.drawable.ic_play_arrow);
+                    ((ImageView) viewBindingUtil.getViewWithId(R.id.number_pause_textview)).setImageResource(R.drawable.ic_play_arrow);
                     break;
                 case PLAY:
-                    ((ImageView)ViewBindingUtil.getViewWithId(R.id.number_pause_textview)).setImageResource(R.drawable.ic_pause);
+                    ((ImageView) viewBindingUtil.getViewWithId(R.id.number_pause_textview)).setImageResource(R.drawable.ic_pause);
                     break;
             }
         }
@@ -704,7 +713,7 @@ public class MainActivity extends BaseActivity
     @Subscribe
     public void onEvent(PlayThisListEvent event){
         List<FavouriteModel> dataList = event.getDataList();
-        if(filePathList.contains(dataList.get(0).getPathname())){
+        //if(filePathList.contains(dataList.get(0).getPathname())){
             favPlayList.addAll(dataList);
             isPlaylistMode = true;
             repeatState = REPEAT_ALL;
@@ -717,22 +726,22 @@ public class MainActivity extends BaseActivity
             numberTextView.setText(favPlayList.get(playListIndex).getNumber());
             playButton.callOnClick();
             invalidateOptionsMenu();
-        } else {
-            CommonUtil.showToast(MainActivity.this, "This favourite item is not from current sd card");
-        }
+        //} else {
+        //    CommonUtil.showToast(MainActivity.this, "This favourite item is not from current sd card");
+        //}
     }
 
     private void reConfigurePlayList() {
-        ViewBindingUtil.getTextView(R.id.number_1_textview).setEnabled(!isPlaylistMode);
-        ViewBindingUtil.getTextView(R.id.number_2_textview).setEnabled(!isPlaylistMode);
-        ViewBindingUtil.getTextView(R.id.number_3_textview).setEnabled(!isPlaylistMode);
-        ViewBindingUtil.getTextView(R.id.number_4_textview).setEnabled(!isPlaylistMode);
-        ViewBindingUtil.getTextView(R.id.number_5_textview).setEnabled(!isPlaylistMode);
-        ViewBindingUtil.getTextView(R.id.number_6_textview).setEnabled(!isPlaylistMode);
-        ViewBindingUtil.getTextView(R.id.number_7_textview).setEnabled(!isPlaylistMode);
-        ViewBindingUtil.getTextView(R.id.number_8_textview).setEnabled(!isPlaylistMode);
-        ViewBindingUtil.getTextView(R.id.number_9_textview).setEnabled(!isPlaylistMode);
-        ViewBindingUtil.getTextView(R.id.number_0_textview).setEnabled(!isPlaylistMode);
+        viewBindingUtil.getTextView(R.id.number_1_textview).setEnabled(!isPlaylistMode);
+        viewBindingUtil.getTextView(R.id.number_2_textview).setEnabled(!isPlaylistMode);
+        viewBindingUtil.getTextView(R.id.number_3_textview).setEnabled(!isPlaylistMode);
+        viewBindingUtil.getTextView(R.id.number_4_textview).setEnabled(!isPlaylistMode);
+        viewBindingUtil.getTextView(R.id.number_5_textview).setEnabled(!isPlaylistMode);
+        viewBindingUtil.getTextView(R.id.number_6_textview).setEnabled(!isPlaylistMode);
+        viewBindingUtil.getTextView(R.id.number_7_textview).setEnabled(!isPlaylistMode);
+        viewBindingUtil.getTextView(R.id.number_8_textview).setEnabled(!isPlaylistMode);
+        viewBindingUtil.getTextView(R.id.number_9_textview).setEnabled(!isPlaylistMode);
+        viewBindingUtil.getTextView(R.id.number_0_textview).setEnabled(!isPlaylistMode);
         playButton.setEnabled(!isPlaylistMode);
 
         if(isPlaylistMode){
@@ -743,13 +752,13 @@ public class MainActivity extends BaseActivity
     @Subscribe
     public void onEvent(PlayThisEvent event){
         FavouriteModel data = event.getData();
-        if(filePathList.contains(data.getPathname())){
+        //if(filePathList.contains(data.getPathname())){
             exitPlayList();
             numberTextView.setText(data.getNumber());
             playButton.callOnClick();
-        } else {
-            CommonUtil.showToast(MainActivity.this, "This favourite item is not from current sd card");
-        }
+        //} else {
+        //    CommonUtil.showToast(MainActivity.this, "This favourite item is not from current sd card");
+        //}
     }
 
     @Override

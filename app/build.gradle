@@ -3,11 +3,11 @@ apply plugin: 'io.fabric'
 
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
     defaultConfig {
         applicationId "com.ahsailabs.qudsplayer"
         minSdkVersion 16
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 4
         versionName "1.1.4.20"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

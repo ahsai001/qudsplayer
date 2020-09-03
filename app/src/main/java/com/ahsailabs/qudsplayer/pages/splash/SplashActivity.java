@@ -17,8 +17,8 @@ public class SplashActivity extends BaseSplashActivity {
         super.onCreate(savedInstanceState);
         setImageIcon(R.drawable.splash_logo);
         setBackgroundPaneColor(R.color.colorPrimary);
-        setTitleTextView("Quds Player\n"+getString(R.string.nav_header_subtitle), android.R.color.white);
-        setBottomTextView("Quds Player v"+CommonUtil.getVersionName(SplashActivity.this), android.R.color.white);
+        setTitleTextView("Quds & Qids Player\n"+getString(R.string.nav_header_subtitle), android.R.color.white);
+        setBottomTextView("Quds & Qids Player v"+CommonUtil.getVersionName(SplashActivity.this), android.R.color.white);
         ImageView logoView = findViewById(R.id.splashscreen_icon);
         LinearLayout.LayoutParams param = (LinearLayout.LayoutParams) logoView.getLayoutParams();
         int widthHeigh = CommonUtil.getPixelFromDip2(this, 130);

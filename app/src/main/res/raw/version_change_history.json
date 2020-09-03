@@ -1,5 +1,8 @@
 [
     {
+        "item": "version 1.1.4.20",
+        "description": "- update logo, themes and bug fixing some crash\n- add cloud list"
+    },{
         "item": "version 1.0.3.10",
         "description": "- update logo, themes and bug fixing some crash"
     },{

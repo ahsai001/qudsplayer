@@ -168,11 +168,11 @@ public class MainActivity extends BaseActivity
 
                                         publishProgress();
 
-                                        Log.e("audio OK fileName",fileName);
-                                        Log.e("audio OK pathName",pathName);
+                                        //Log.e("audio OK fileName",fileName);
+                                        //Log.e("audio OK pathName",pathName);
                                     } else {
-                                        Log.e("audio NOK fileName",fileName);
-                                        Log.e("audio NOK pathName",pathName);
+                                        //Log.e("audio NOK fileName",fileName);
+                                        //Log.e("audio NOK pathName",pathName);
                                     }
                                 }
                             }

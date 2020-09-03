@@ -79,7 +79,7 @@ public class FavouritePlayListActivityFragment extends BaseFragment {
         swipeRefreshLayoutUtil = SwipeRefreshLayoutUtil.init(viewBindingUtil.getSwipeRefreshLayout(R.id.favourite_refreshLayout), new Runnable() {
             @Override
             public void run() {
-                loadDB();
+                loadCloudPlayList();
             }
         });
 
@@ -108,12 +108,46 @@ public class FavouritePlayListActivityFragment extends BaseFragment {
         ((FavouriteActivity)getActivity()).fab.setVisibility(View.GONE);
     }
 
-    private void loadDB(){
+
+
+    private void loadCloudPlayList(){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("playlists").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                List<FavouriteModel> cloudPlayList = new ArrayList<>();
+                if(task.isSuccessful()){
+                    for (QueryDocumentSnapshot snapshot : task.getResult()){
+                        Map<String, Object> data = snapshot.getData();
+                        FavouriteModel item = new FavouriteModel();
+                        String docName = snapshot.getId();
+                        item.setPlaylist(docName);
+                        item.setName(docName);
+                        cloudPlayList.add(item);
+                    }
+                }
+                loadDB(cloudPlayList);
+
+            }
+        }).addOnCanceledListener(new OnCanceledListener() {
+            @Override
+            public void onCanceled() {
+                loadDB(null);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                loadDB(null);
+            }
+        });
+    }
+
+    private void loadDB(List<FavouriteModel> cloudPlayList) {
         favouriteModelList.clear();
 
-        FavouriteModel qudsIndex = new FavouriteModel();
-        qudsIndex.setPlaylist(AppConfig.QudsQidsIndexPlayList);
-        favouriteModelList.add(qudsIndex);
+        if (cloudPlayList != null && cloudPlayList.size() > 0){
+            favouriteModelList.addAll(cloudPlayList);
+        }
 
         List<FavouriteModel> dataList = FavouriteModel.getPlayList();
         if(dataList != null && dataList.size() > 0) {

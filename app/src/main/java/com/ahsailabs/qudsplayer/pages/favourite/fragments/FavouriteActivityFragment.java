@@ -146,7 +146,7 @@ public class FavouriteActivityFragment extends BaseFragment {
 
     private void loadQudsQidsIndexList(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("playlists").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("playlists").document(playlistName).collection("list").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){
@@ -155,11 +155,11 @@ public class FavouriteActivityFragment extends BaseFragment {
                         Map<String, Object> data = snapshot.getData();
                         FavouriteModel item = new FavouriteModel();
                         item.setName((String) data.get("name"));
-                        item.setPlaylist(AppConfig.QudsQidsIndexPlayList);
+                        item.setPlaylist(playlistName);
                         item.setNumber((String) data.get("number"));
                         qudsQidsIndexList.add(item);
                     }
-                    
+
                     favouriteModelList.clear();
                     favouriteModelList.addAll(qudsQidsIndexList);
                     favouriteAdapter.notifyDataSetChanged();
@@ -181,18 +181,16 @@ public class FavouriteActivityFragment extends BaseFragment {
     }
 
     private void loadDB(){
-        if(playlistName.contains(AppConfig.QudsQidsIndexPlayList)){
-            loadQudsQidsIndexList();
-        } else {
-            List<FavouriteModel> dataList = FavouriteModel.getAllFromPlayList(playlistName);
-            if (dataList != null && dataList.size() > 0) {
-                favouriteModelList.clear();
-                favouriteModelList.addAll(dataList);
-                favouriteAdapter.notifyDataSetChanged();
-            }
-
+        List<FavouriteModel> dataList = FavouriteModel.getAllFromPlayList(playlistName);
+        if (dataList != null && dataList.size() > 0) {
+            favouriteModelList.clear();
+            favouriteModelList.addAll(dataList);
+            favouriteAdapter.notifyDataSetChanged();
             swipeRefreshLayoutUtil.refreshDone();
+        } else {
+            loadQudsQidsIndexList();
         }
+
     }
 
     @Override

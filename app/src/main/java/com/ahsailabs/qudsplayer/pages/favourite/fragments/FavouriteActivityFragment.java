@@ -90,7 +90,6 @@ public class FavouriteActivityFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((BaseActivity)getActivity()).getSupportActionBar().setTitle("Favourite List");
     }
 
     @Override
@@ -142,6 +141,7 @@ public class FavouriteActivityFragment extends BaseFragment {
 
         swipeRefreshLayoutUtil.refreshNow();
         ((FavouriteActivity)getActivity()).fab.setVisibility(View.VISIBLE);
+        ((FavouriteActivity) getActivity()).getSupportActionBar().setTitle(playlistName);
     }
 
     private void loadQudsQidsIndexList(){
